@@ -1,5 +1,5 @@
-﻿// Unity Phong Shader Example - Ricardo Bustamante
-Shader "Unlit/Phong"
+﻿// Unity Goraud Shader Example - Ricardo Bustamante
+Shader "Unlit/Goraud"
 {
     Properties
     {
@@ -48,20 +48,10 @@ Shader "Unlit/Phong"
 
             struct v2f
             {
-                float3 normal : NORMAL;
+                float4 color : COLOR;
                 float4 vertex : SV_POSITION;
-                float4 world : TEXCOORD1;
             };
 
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.normal = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
-                o.world = UnityObjectToClipPos(v.vertex);
-                return o;
-            }
-            
             // Material Properties
             fixed3 ks;
             fixed3 kd;
@@ -96,14 +86,23 @@ Shader "Unlit/Phong"
                 return fixed4(diffuse + specular, 1);
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            v2f vert (appdata v)
             {
-                float3 N = normalize(i.normal);
-                float3 vpos = i.world.xyz; 
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                float3 N = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
+                float3 vpos = UnityObjectToClipPos(v.vertex).xyz;
                 float3 V = normalize(_WorldSpaceCameraPos - vpos);
-                fixed4 col = fixed4(ia*ka*aValue, 1) + // ambient
-                             light(id0, is0, N, V, vpos, l0)*l0value + // light 0
-                             light(id1, is1, N, V, vpos, l1)*l1value; // light 1
+                
+                o.color = fixed4(ia*ka*aValue, 1) + // ambient
+                          light(id0, is0, N, V, vpos, l0)*l0value + // light 0
+                          light(id1, is1, N, V, vpos, l1)*l1value; // light 1
+                return o;
+            }
+
+            fixed4 frag (v2f i) : SV_Target
+            { 
+                fixed4 col = i.color;
                 return col;
             }
             ENDCG

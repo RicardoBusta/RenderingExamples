@@ -12,7 +12,11 @@
           <e p="InterpolationVector.cs" t="Include" />
         </e>
         <e p="Phong" t="Include">
+          <e p="Goraud.shader" t="Include" />
+          <e p="IlluminationController.cs" t="Include" />
+          <e p="LightSource.cs" t="Include" />
           <e p="Phong.shader" t="Include" />
+          <e p="SpinObject.cs" t="Include" />
         </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">
