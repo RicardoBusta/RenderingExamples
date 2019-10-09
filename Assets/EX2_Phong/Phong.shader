@@ -92,7 +92,7 @@ Shader "Unlit/Phong"
                 float3 R = normalize((2*dot(L, N))*N-L); // reflection vector
                 
                 // Clamp is important to avoid color subtraction
-                float3 specular = ks * is * (pow(dot(R, V),a));
+                float3 specular = clamp(ks * is * (pow(dot(R, V),a)), 0, 1);
                 return fixed4(diffuse + specular, 1);
             }
 

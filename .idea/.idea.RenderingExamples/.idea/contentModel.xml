@@ -18,6 +18,9 @@
           <e p="Phong.shader" t="Include" />
           <e p="SpinObject.cs" t="Include" />
         </e>
+        <e p="EX3_RayTracing" t="Include">
+          <e p="InteractiveRayTracing.cs" t="Include" />
+        </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">
             <e p="LiberationSans - OFL.txt" t="Include" />
